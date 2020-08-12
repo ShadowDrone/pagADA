@@ -2,6 +2,7 @@ package ar.com.ada.api.pagada.controllers;
 
 import ar.com.ada.api.pagada.entities.Empresa;
 import ar.com.ada.api.pagada.services.*;
+import ar.com.ada.api.pagada.services.EmpresaService.EmpresaValidacionEnum;
 import ar.com.ada.api.pagada.models.request.EmpresaRequest;
 import ar.com.ada.api.pagada.models.response.*;
 import java.util.List;
@@ -56,6 +57,18 @@ public class EmpresaController {
         emp.setTipoIdImpositivo(empR.tipoIdImpositivo);
         emp.setIdImpositivo(empR.idImpositivo);
         emp.setNombre(empR.nombre);
+
+        // Este metodo no es tan extensible que el de abajo
+        // porque depeden de los parametros
+        // empresaService.validarNombreEIdImpositivo(empR.nombre, empR.idImpositivo);
+
+        EmpresaValidacionEnum resultadoValidacion = empresaService.validarEmpresa(emp);
+        if (resultadoValidacion != EmpresaValidacionEnum.OK) {
+            gr.isOk = false;
+            gr.message = "No se pudo validar la empresa " + resultadoValidacion.toString();
+
+            return ResponseEntity.badRequest().body(gr); // http 400
+        }
 
         empresaService.crearEmpresa(emp);
 
