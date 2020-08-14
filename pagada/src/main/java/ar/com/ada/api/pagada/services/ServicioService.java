@@ -77,4 +77,33 @@ public class ServicioService {
             return null;
         }
     }
+
+    /***
+     * Trae todos los servicios
+     * 
+     * @return
+     */
+    public List<Servicio> listarServicios() {
+        return servicioRepo.findAll();
+    }
+
+    /***
+     * Trae todos los servicios de una empresa
+     * 
+     * @param empresaId eeste parametro eel Id de la empresa
+     * @return
+     */
+    public List<Servicio> listarServiciosPorEmpresaId(Integer empresaId) {
+        return servicioRepo.findAllEmpresaId(empresaId);
+    }
+
+    /**
+     * Trae todos los servicios PENDIENTES de una empresa
+     * 
+     * @param empresaId
+     * @return
+     */
+    public List<Servicio> listarServiciosPendientesPorEmpresaId(Integer empresaId) {
+        return servicioRepo.findAllPendientesEmpresaId(empresaId);
+    }
 }
