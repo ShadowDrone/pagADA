@@ -1,13 +1,13 @@
 package ar.com.ada.api.pagada.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 
 import ar.com.ada.api.pagada.entities.Deudor;
 import ar.com.ada.api.pagada.entities.Pais.TipoIdImpositivoEnum;
-import ar.com.ada.api.pagada.models.request.DeudorRequest;
 import ar.com.ada.api.pagada.repos.DeudorRepository;
 
 @Service
@@ -107,4 +107,14 @@ public class DeudorService {
         NOMBRE_INVALIDO, // Nombre tenga algun problema
         ID_IMPOSITIVO_INVALIDO // ID impositivo tenga un problema
     }
+
+    public Deudor buscarDeudorPorId(Integer deudorId) {
+        Optional<Deudor> oDeudor = deudorRepo.findById(deudorId);
+        if (oDeudor.isPresent()) {
+            return oDeudor.get();
+        } else {
+            return null;
+        }
+    }
+
 }

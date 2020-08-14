@@ -22,7 +22,6 @@ public class Deudor {
     @Column(name = "id_impositivo")
     private String idImpositivo;
     private String nombre;
-
     @OneToMany(mappedBy = "deudor", cascade = CascadeType.ALL)
     private List<Servicio> serviciosASuNombre = new ArrayList<>();
 

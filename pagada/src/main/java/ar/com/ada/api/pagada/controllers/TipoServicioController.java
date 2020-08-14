@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
 import ar.com.ada.api.pagada.entities.TipoServicio;
 import ar.com.ada.api.pagada.models.response.GenericResponse;
 import ar.com.ada.api.pagada.services.ServicioService;
@@ -43,4 +42,4 @@ public class TipoServicioController {
         }
     }
 
-} //ya podemos llorar? u.u
+} // ya podemos llorar? u.u
