@@ -106,4 +106,17 @@ public class ServicioService {
     public List<Servicio> listarServiciosPendientesPorEmpresaId(Integer empresaId) {
         return servicioRepo.findAllPendientesEmpresaId(empresaId);
     }
+
+    public List<Servicio> PendientesPorEmpresaIdYDeudorId(Integer empresa, Integer deudor) {
+        return servicioRepo.findAllPendientesByEmpresaIdYDeudorId(empresa, deudor);
+    }
+
+    public List<Servicio> historicoPorEmpresaIdYDeudorId(Integer empresaId, Integer deudorId) {
+        return servicioRepo.findAllEmpresaIdYDeudorId(empresaId, deudorId);
+    }
+
+    public List<Servicio> listarPorCodigoBarras(String codigoBarras) {
+        return servicioRepo.findAllByCodigoBarras(codigoBarras);
+    }
+
 }

@@ -104,18 +104,60 @@ public class ServicioController {
     @GetMapping("/api/servicios")
     public ResponseEntity<List<Servicio>> listarServicios(
             @RequestParam(name = "empresa", required = false) Integer empresa,
-            @RequestParam(name = "deudor", required = false) Integer deudor) {
+            @RequestParam(name = "deudor", required = false) Integer deudor,
+            @RequestParam(name = "historico", required = false) boolean historico,
+            @RequestParam(name = "codigo", required = false) String codigo) {
+
         List<Servicio> servicios = new ArrayList<>();
-
-        if (empresa == null)
-            servicios = servicioService.listarServicios();
-        else {
-
-            // LISTA los que son de la empresa y son pendientes.
+        // "/api/servicios?empresa=33393&codigo=383811&deudor=9929229"
+        //Version Alexmary
+        if (codigo != null) {
+            servicios = servicioService.listarPorCodigoBarras(codigo);
+        } else if (empresa != null && deudor == null) {
             servicios = servicioService.listarServiciosPendientesPorEmpresaId(empresa);
+        } else if (empresa != null && deudor != null && !historico) {
+            servicios = servicioService.PendientesPorEmpresaIdYDeudorId(empresa, deudor);
+        } else if (empresa != null && deudor != null && historico) {
+            servicios = servicioService.historicoPorEmpresaIdYDeudorId(empresa, deudor);
+        } else {
+            servicios = servicioService.listarServicios();
         }
 
+        // "/api/servicios?deudor=9929229"
+        //Version Ailin
+        /*Integer empresaId = empresa;
+        Integer deudorId = deudor;
+        String codigoBarras = codigo;
+
+        if(codigoBarras != null){
+            return ResponseEntity.ok(servicioService.listarPorCodigoBarras(codigoBarras));
+        }else if(empresaId == null){
+            return ResponseEntity.ok(servicioService.listarServicios());
+        }else if(deudorId == null){
+            return ResponseEntity.ok(servicioService.listarServiciosPendientesPorEmpresaId(empresaId));
+        }else if(historico){
+            return ResponseEntity.ok(servicioService.historicoPorEmpresaIdYDeudorId(empresaId, deudorId));
+        }
+        return ResponseEntity.ok(servicioService.PendientesPorEmpresaIdYDeudorId(empresaId, deudorId));       
+
+        */
+        /* OTRA FORMA
+                if(codigo != null){
+                    return ResponseEntity.ok(servicioService.listarPorCodigoBarras(codigo));
+
+                if(empresa == null){
+                    return ResponseEntity.ok(servicioService.listarServicios());
+
+                if(deudor == null){
+                    return ResponseEntity.ok(servicioService.listarServiciosPendientesPorEmpresaId(empresa));
+
+                if(historico){
+                    return ResponseEntity.ok(servicioService.historicoPorEmpresaIdYDeudorId(empresa, deudor));
+                }
+                return ResponseEntity.ok(servicioService.PendientesPorEmpresaIdYDeudorId(empresa, deudor));  
+        */
         return ResponseEntity.ok(servicios);
     }
 
 }
+        
