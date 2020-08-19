@@ -265,6 +265,9 @@ public class ServicioController {
     @PutMapping("/api/servicios/{id}")
     public ResponseEntity<GenericResponse> actualizarServicio(@PathVariable Integer id,
             @RequestBody ActualizarServicioRequest actualizarS) {
+                
+        GenericResponse response = new GenericResponse();
+
         // Buscar el servicio
         // actualizar propiedades
         // grabarlo
@@ -272,11 +275,24 @@ public class ServicioController {
         Servicio servicio = servicioService.buscarServicioPorId(id);
 
         servicio.setImporte(actualizarS.importe);
-        servicio.setFechaVencimiento(actualizarS.vencimiento);
+        servicio.setFechaVencimiento(actualizarS.vencimiento)
+        ;
         
+        //Agrego validacion adicional, mas alla de ue la hago en grabar.
+        ServicioValidacionEnum servicioVResultado;
+        servicioVResultado = servicioService.validarServicio(servicio);
+
+        if (servicioVResultado != ServicioValidacionEnum.OK) {
+            response.isOk = false;
+            response.message = "Hubo un error en la validacion del servicio " + servicioVResultado;
+
+            return ResponseEntity.badRequest().body(response); // Error http 400
+        }
+
+
         servicioService.grabar(servicio);
 
-        GenericResponse response = new GenericResponse();
+        
         response.isOk = true;
         response.message = "Servicio actualizado!";
         response.id = servicio.getServicioId();

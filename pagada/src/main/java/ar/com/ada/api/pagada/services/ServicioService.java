@@ -70,13 +70,20 @@ public class ServicioService {
 
     public Servicio crearSevicio(Servicio servicio) {
 
+        
+
+        return grabar(servicio);
+
+    }
+
+    public Servicio grabar(Servicio servicio) {
         // Si agreggo validacion justo antes de la creacion
         if (this.validarServicio(servicio) != ServicioValidacionEnum.OK)
             return servicio;
 
-        return servicioRepo.save(servicio);
-
-    }
+        servicioRepo.save(servicio);
+        return servicio;
+	}
 
     public TipoServicio buscarTipoServicioPorId(Integer tipoServicioId) {
         Optional<TipoServicio> oTipoServicio = tSRepository.findById(tipoServicioId);
@@ -201,9 +208,6 @@ public class ServicioService {
 		return pagoRepo.findPagosByDeudorId(deudorId);
 	}
 
-	public void grabar(Servicio servicio) {
-        servicioRepo.save(servicio);
-	}
 
 
 }    
