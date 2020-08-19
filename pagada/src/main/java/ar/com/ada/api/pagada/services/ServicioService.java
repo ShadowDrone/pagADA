@@ -201,5 +201,18 @@ public class ServicioService {
 		return pagoRepo.findPagosByDeudorId(deudorId);
 	}
 
+	public void grabar(Servicio servicio) {
+        servicioRepo.save(servicio);
+	}
 
-}
+
+}    
+
+/*Modificar Vencimiento e Importe de un Servicio
+PUT /api/servicios/{id}
+
+Payload esperado(RequestBody)
+     {
+     "importe": 939393,
+         "vencimiento": "2020-05-20"
+ }*/
