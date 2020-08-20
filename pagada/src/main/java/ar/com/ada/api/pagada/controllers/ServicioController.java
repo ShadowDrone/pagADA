@@ -11,6 +11,7 @@ import ar.com.ada.api.pagada.models.request.ActualizarServicioRequest;
 import ar.com.ada.api.pagada.models.request.InfoPagoRequest;
 import ar.com.ada.api.pagada.models.request.ServicioRequest;
 import ar.com.ada.api.pagada.models.response.GenericResponse;
+import ar.com.ada.api.pagada.models.response.PagoRealizadoResponse;
 import ar.com.ada.api.pagada.services.*;
 import ar.com.ada.api.pagada.services.ServicioService.ServicioValidacionEnum;
 
@@ -175,9 +176,9 @@ public class ServicioController {
      */
 
     @PostMapping("/api/servicios/{id}")
-    public ResponseEntity<GenericResponse> pagarServicio(@PathVariable Integer id, @RequestBody InfoPagoRequest pago) {
+    public ResponseEntity<PagoRealizadoResponse> pagarServicio(@PathVariable Integer id, @RequestBody InfoPagoRequest pago) {
 
-        GenericResponse r = new GenericResponse();
+        PagoRealizadoResponse r = new PagoRealizadoResponse();
 
         // To do:
         // buscar servicio por id
@@ -238,6 +239,7 @@ public class ServicioController {
                 r.isOk = true;
                 r.id = pagoResult.getPago().getPagoId();
                 r.message = "se realizo el pago con exito";
+                r.nombreEmpresa = pagoResult.getPago().getServicio().getEmpresa().getNombre();
                 return ResponseEntity.ok(r);
         }
         // error sin nada.
